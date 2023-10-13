@@ -4,6 +4,7 @@
     --cian-claro: #006f71;
     --gris-claro: #f2f2f2;
     --blanco: white;
+    --orange: orange;
 }
 /*Css general*/
 *,*::before,*::after{
@@ -40,7 +41,40 @@ input[type="number"]::-webkit-outer-spin-button {
     align-items: center;
     justify-content: center;
 }
-
+#error404{
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--cian);
+    color: var(--gris-claro);
+}
+#error{
+    color: red;
+}
+#succesful{
+    color: green;
+}
+.back{
+    position: absolute;
+    bottom: 3%;
+    left: 2%;
+}
+#Link{
+    background-color: var(--gris-claro);
+    color: var(--cian);
+    text-transform: uppercase;
+    font-weight: bold;
+    border: none;
+    border-radius: 10px;
+    padding: 10px 20px;
+    text-decoration: none;
+}
+#Link:hover{
+    cursor: pointer;
+    color: var(--orange);
+}
 /*Registro*/
 .form-registro{
     background-color: rgb(231, 231, 231);
@@ -92,8 +126,13 @@ input{
 #dv{
     width: 30px;
 }
+#prevision{
+    height: 30px;
+    width: 247px;
+    font-size: 20px;
+}
 #submit{
-    width: 95%;
+    width: 100%;
     height: 30px;
     border: none;
     border-radius: 5px;
@@ -147,6 +186,9 @@ input{
 }
 #link-register{
     color: var(--cian);
+    text-decoration: none;
+    font-weight: bold;
+    font-style: italic;
 }
 #link-register:hover{
     color: var(--cian-claro);
