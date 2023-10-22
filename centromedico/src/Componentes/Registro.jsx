@@ -93,8 +93,8 @@ const Registro = () => {
                     </div>
                 </div>
                 <div className='div-input'>
-                    <label htmlFor="contraseña">Contraseña</label>
-                    <input id='contraseña' name='contraseña' type="password" placeholder='********'/>
+                    <label htmlFor="contrasenia">Contraseña</label>
+                    <input id='contrasenia' name='contrasenia' type="password" placeholder='********'/>
                 </div>
                 <div className='div-input'>
                     <label htmlFor="nombre">Nombre</label>

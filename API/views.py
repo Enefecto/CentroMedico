@@ -3,10 +3,8 @@ from django.views.decorators.csrf import csrf_exempt
 from rest_framework.parsers import JSONParser
 from django.http.response import JsonResponse
 
-from API.models import Paciente
-from API.serializers import PacienteSerializer
-from API.models import Medico
-from API.serializers import MedicoSerializer
+from API.models import Paciente, Medico, Secretaria, Cajero
+from API.serializers import PacienteSerializer, MedicoSerializer, SecretariaSerializer, CajeroSerializer
 
 @csrf_exempt
 def PacienteApi(request, id=0):
@@ -75,3 +73,27 @@ def MedicoApi(request, id=0):
         medico = Medico.objects.get(id=id)
         medico.delete()
         return JsonResponse('Deleted Successfully', safe=False)
+    
+@csrf_exempt
+def login(request):
+    if request.method == 'POST':
+        data = JSONParser().parse(request)
+        rut = data.get('rut')
+        contraseña = data.get('contraseña')
+
+        # Intentar encontrar al usuario en las tablas
+        paciente = Paciente.objects.filter(rut=rut, contraseña=contraseña).first()
+        medico = Medico.objects.filter(rut=rut, contraseña=contraseña).first()
+        secretaria = Secretaria.objects.filter(rut=rut, contraseña=contraseña).first()
+        cajero = Cajero.objects.filter(rut=rut, contraseña=contraseña).first()
+
+        if paciente:
+            return JsonResponse({'userType': 'Paciente', 'userData': PacienteSerializer(paciente).data})
+        elif medico:
+            return JsonResponse({'userType': 'Medico', 'userData': MedicoSerializer(medico).data})
+        elif secretaria:
+            return JsonResponse({'userType': 'Secretaria', 'userData': SecretariaSerializer(secretaria).data})
+        elif cajero:
+            return JsonResponse({'userType': 'Cajero', 'userData': CajeroSerializer(cajero).data})
+        else:
+            return JsonResponse({'error': 'Credenciales inválidas'}, status=400)
