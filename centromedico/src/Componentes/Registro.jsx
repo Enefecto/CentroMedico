@@ -89,7 +89,7 @@ const Registro = () => {
                     <div className='input-rut'>
                         <input id='rut' name='rut' type="number" placeholder='12345678' required/>
                         <span>-</span>
-                        <input id='dv' name='dv' type="text" placeholder='k'  required/>
+                        <input id='dv' name='dv' maxLength="1" type="text" placeholder='k'  required/>
                     </div>
                 </div>
                 <div className='div-input'>

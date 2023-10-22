@@ -1,11 +1,19 @@
 import React from 'react'
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const Login = () => {
     
+    const navigate = useNavigate();
+
+    const tryLogin = (e) => {
+        e.preventDefault();
+        navigate('./inicio')
+        console.log('Ola');
+    }
+
     return (
     <div className='conteiner'>
-    <form className='form-login'>
+    <form className='form-login' onSubmit={tryLogin}>
         <h1>Bienvenido</h1>
         <div className="conteiner-inputs">
             <div className='div-input'>
@@ -24,7 +32,7 @@ const Login = () => {
                 <p>Recuperar contraseña</p>
             </div>
         </div>
-        <input id='submit' type="submit" value="Iniciar Sesión" />
+        <input id='submit' type="submit" value="Iniciar Sesión"/>
         <p>¿No tienes una cuenta?<Link id='link-register' to="/registro"> Registrate</Link></p>
     </form>
     </div>
