@@ -14,7 +14,8 @@ export const MainRouter = ({loggin, setLoggin}) => {
 	let isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
 
 	useEffect(()=> {
-		isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+		console.log();
+		// eslint-disable-next-line
 	},[loggin])
 	
 	return (
