@@ -18,6 +18,10 @@ h1{
     font-size: 2.3rem;
     text-align: center;
 }
+h2{
+    font-size: 2rem;
+    text-align: center;
+}
 input[type="number"]::-webkit-inner-spin-button,
 input[type="number"]::-webkit-outer-spin-button {
   -webkit-appearance: none;
@@ -41,6 +45,9 @@ input[type="number"]::-webkit-outer-spin-button {
     flex-direction: column;
     align-items: center;
     justify-content: center;
+}
+.gris{
+    background-color: var(--gris);
 }
 #error404{
     height: 100vh;
@@ -148,7 +155,7 @@ input{
     background-color: var(--cian-claro);
 }
 /*Login*/
-.form-login{
+.conteiner-form{
     background-color: rgb(231, 231, 231);
     height: 90%;
     max-height: 500px;
@@ -164,10 +171,10 @@ input{
     box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75);
     padding: 10px 20px;
 }
-.form-login h1{
+.conteiner-form h1{
     color: var(--cian);
 }
-.form-login .conteiner-inputs{
+.conteiner-form .conteiner-inputs{
     width: 100%;
     height: 150px;
     display: flex;
@@ -197,9 +204,6 @@ input{
     cursor: pointer;
 }
 /* HOME */
-.conteiner-home{
-    background-color: var(--gris);
-}
 .navigation-bar{
     width: 100%;
     height: 90px;
@@ -274,5 +278,18 @@ input{
 }
 .form-add-medico h1{
     color: var(--cian);
+    width: 100%;
+}
+/*AGREGAR DISPONIBILIDAD*/
+.conteiner-form h2{
+    color: var(--cian);
+}
+
+.inputs-availibility{
+    width: 100%;
+}
+#dia, 
+#hora_inicio,
+#hora_fin{
     width: 100%;
 }

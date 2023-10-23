@@ -45,7 +45,7 @@ const Home = ({setLoggin}) => {
   };
 
   return (
-    <div className='conteiner conteiner-home'>
+    <div className='conteiner gris'>
       <nav className='navigation-bar'>
         <ul>
           {reserveButton ? <li onClick={goReservarHora}>Reservar Hora</li> : <></>}

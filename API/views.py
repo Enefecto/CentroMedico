@@ -3,8 +3,10 @@ from django.views.decorators.csrf import csrf_exempt
 from rest_framework.parsers import JSONParser
 from django.http.response import JsonResponse
 
-from API.models import Paciente, Medico, Secretaria, Cajero
-from API.serializers import PacienteSerializer, MedicoSerializer, SecretariaSerializer, CajeroSerializer
+from API.models import Paciente, Medico, Secretaria, Cajero, DisponibilidadDiaria
+from API.serializers import PacienteSerializer, MedicoSerializer, SecretariaSerializer, CajeroSerializer, DisponibilidadDiariaSerializer
+
+from datetime import datetime
 
 @csrf_exempt
 def PacienteApi(request, id=0):
@@ -97,3 +99,54 @@ def login(request):
             return JsonResponse({'userType': 'Cajero', 'userData': CajeroSerializer(cajero).data})
         else:
             return JsonResponse({'error': 'Credenciales inválidas'}, status=400)
+
+@csrf_exempt
+def disponibilidadMedico(request):
+    if request.method == 'POST':
+        data = JSONParser().parse(request)
+        
+        # Extraer el día de la fecha
+        fecha = datetime.strptime(data['dia'], '%Y-%m-%d')
+        dia_semana = fecha.strftime('%A')
+
+        # Obtener el medico
+        medico = Medico.objects.get(id=data['idMedico'])
+
+        # Verificar el día de la semana y horarios según el requerimiento
+        if dia_semana == 'Saturday':
+            hora_inicio = datetime.strptime(data['hora_inicio'], '%H:%M')
+            hora_fin = datetime.strptime(data['hora_fin'], '%H:%M')
+            horario_inicio = datetime.strptime('09:00', '%H:%M')
+            horario_fin = datetime.strptime('14:00', '%H:%M')
+
+            if horario_inicio <= hora_inicio <= horario_fin and horario_inicio <= hora_fin <= horario_fin:
+                disponibilidad = DisponibilidadDiaria(medico=medico, dia=data['dia'], hora_inicio=data['hora_inicio'], hora_fin=data['hora_fin'])
+                disponibilidad.save()
+                return JsonResponse('Disponibilidad agregada exitosamente', safe=False)
+            else:
+                return JsonResponse('Horario inválido para sábado', status=400)
+        else:
+            hora_inicio = datetime.strptime(data['hora_inicio'], '%H:%M')
+            hora_fin = datetime.strptime(data['hora_fin'], '%H:%M')
+            horario_inicio = datetime.strptime('09:00', '%H:%M')
+            horario_fin = datetime.strptime('20:00', '%H:%M')
+
+            if horario_inicio <= hora_inicio <= horario_fin and horario_inicio <= hora_fin <= horario_fin:
+                disponibilidad = DisponibilidadDiaria(medico=medico, dia=data['dia'], hora_inicio=data['hora_inicio'], hora_fin=data['hora_fin'])
+                disponibilidad.save()
+                return JsonResponse('Disponibilidad agregada exitosamente', safe=False)
+            else:
+                return JsonResponse('Horario inválido para el resto de los días', status=400)
+
+    return JsonResponse('Método no permitido', status=405)
+
+@csrf_exempt
+def disponibilidadMedicoById(request):
+    if request.method == 'POST':
+        data = JSONParser().parse(request)
+        id_medico = data.get('idMedico')
+        disponibilidades = DisponibilidadDiaria.objects.filter(medico=id_medico)
+        disponibilidades_serializer = DisponibilidadDiariaSerializer(disponibilidades, many=True)
+        return JsonResponse(disponibilidades_serializer.data, safe=False)
+
+    return JsonResponse('Método no permitido', status=405)

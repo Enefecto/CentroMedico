@@ -43,7 +43,7 @@ const Login = ({setLoggin}) => {
 
     return (
     <div className='conteiner'>
-    <form className='form-login' onSubmit={handleSubmit}>
+    <form className='conteiner-form' onSubmit={handleSubmit}>
         <h1>Bienvenido</h1>
         <div className="conteiner-inputs">
             <div className='div-input'>
