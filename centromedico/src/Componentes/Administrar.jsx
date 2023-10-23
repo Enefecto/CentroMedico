@@ -12,7 +12,6 @@ const Administrar = () => {
             if (response.ok) {
                 const data = await response.json();
                 setMedicos(data);
-                console.log(data);
             } else {
                 console.error('Error al obtener médicos');
             }
@@ -129,7 +128,7 @@ const Administrar = () => {
             </div>
 
             <div className='div-input'>
-                <label htmlFor="especialidad">Previsión</label>
+                <label htmlFor="especialidad">Especialidad</label>
                     <select id='especialidad' name='especialidad'>
                         <option value='Cardiologo'>Cardiologo</option>
                         <option value='Dermatologo'>Dermatologo</option>

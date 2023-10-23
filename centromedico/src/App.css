@@ -135,9 +135,9 @@ input{
 #dv{
     width: 30px;
 }
-#prevision, #especialidad{
+#prevision, #especialidad, #dia,#hora{
     height: 30px;
-    width: 247px;
+    width: 100%;
     font-size: 20px;
 }
 #submit{
@@ -145,7 +145,8 @@ input{
     height: 30px;
     border: none;
     border-radius: 5px;
-    font-weight: bold   ;
+    font-weight: bold;
+    font-size: 1.1rem;
     background-color: var(--cian);
     color: var(--blanco);
 }

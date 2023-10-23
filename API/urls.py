@@ -8,6 +8,7 @@ urlpatterns = [
     path('medico/<int:id>/', views.MedicoApi),
     path('login/', views.login),
     path('ingresarDisponibilidad/',views.disponibilidadMedico),
-    path('disponibilidadMedicoById/', views.disponibilidadMedicoById)
-
+    path('disponibilidadMedico/', views.disponibilidadMedico),
+    path('disponibilidadMedicoById/', views.disponibilidadMedicoById),
+    path('agregarCitaMedica/', views.CitaMedica),
 ]

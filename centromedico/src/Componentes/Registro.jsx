@@ -43,8 +43,6 @@ const Registro = () => {
         // Verificar si el rut o el gmail ya están registrados
         const rutExists = pacientes.some(paciente => paciente.rut === parseInt(formData.rut));
         const gmailExists = pacientes.some(paciente => paciente.gmail === formData.gmail);
-        console.log(rutExists);
-        console.log(gmailExists);
         if (rutExists || gmailExists) {
             setSuccesful('');
             setError('Rut o Gmail ya registrado');

@@ -3,8 +3,8 @@ from django.views.decorators.csrf import csrf_exempt
 from rest_framework.parsers import JSONParser
 from django.http.response import JsonResponse
 
-from API.models import Paciente, Medico, Secretaria, Cajero, DisponibilidadDiaria
-from API.serializers import PacienteSerializer, MedicoSerializer, SecretariaSerializer, CajeroSerializer, DisponibilidadDiariaSerializer
+from API.models import Paciente, Medico, Secretaria, Cajero, DisponibilidadDiaria, CitaMedica
+from API.serializers import PacienteSerializer, MedicoSerializer, SecretariaSerializer, CajeroSerializer, DisponibilidadDiariaSerializer, CitaMedicaSerializer
 
 from datetime import datetime
 
@@ -137,7 +137,10 @@ def disponibilidadMedico(request):
                 return JsonResponse('Disponibilidad agregada exitosamente', safe=False)
             else:
                 return JsonResponse('Horario inválido para el resto de los días', status=400)
-
+    elif request.method == 'GET':
+        horas = DisponibilidadDiaria.objects.all()
+        horas_serializer = DisponibilidadDiariaSerializer(horas, many=True)
+        return JsonResponse(horas_serializer.data, safe=False)
     return JsonResponse('Método no permitido', status=405)
 
 @csrf_exempt
@@ -150,3 +153,13 @@ def disponibilidadMedicoById(request):
         return JsonResponse(disponibilidades_serializer.data, safe=False)
 
     return JsonResponse('Método no permitido', status=405)
+
+@csrf_exempt
+def CitaMedica(request):
+    if request.method == 'POST':
+        cita_data = JSONParser().parse(request)
+        cita_serializer = CitaMedicaSerializer(data=cita_data)
+        if cita_serializer.is_valid():
+            cita_serializer.save()
+            return JsonResponse('Added Successfully', safe=False)
+        return JsonResponse('Failed to add', safe=False)
