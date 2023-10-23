@@ -1,8 +1,29 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import { useNavigate } from 'react-router-dom';
 
 const Home = ({setLoggin}) => {
+
+  const [availabilityButton, setAvailabilityButton] = useState(false);
+  const [reserveButton, setReserveButton] = useState(false);
+  const [manageButon, setManageButton] = useState(false);
   
+
+  useEffect(() => {
+    const user = JSON.parse(localStorage.getItem('User'));
+
+    setReserveButton(false);
+    setAvailabilityButton(false);
+    setManageButton(false);
+
+    if (user.userType === 'Paciente'){
+      setReserveButton(true);
+    } else if (user.userType === 'Medico'){
+      setAvailabilityButton(true);
+    } else if (user.userType === 'Secretaria'){
+      setManageButton(true);
+    }
+  },[]);
+
   const navigate = useNavigate();
 
   const goReservarHora = () => {
@@ -27,9 +48,9 @@ const Home = ({setLoggin}) => {
     <div className='conteiner conteiner-home'>
       <nav className='navigation-bar'>
         <ul>
-          <li onClick={goReservarHora}>Reservar Hora</li>
-          <li onClick={goAgregarDisponibilidad}>Agregar Disponibilidad</li>
-          <li onClick={goAdministrar}>Administrar</li>
+          {reserveButton ? <li onClick={goReservarHora}>Reservar Hora</li> : <></>}
+          {availabilityButton ? <li onClick={goAgregarDisponibilidad}>Agregar Disponibilidad</li> : <></>}
+          {manageButon ? <li onClick={goAdministrar}>Administrar</li> : <></>}
           <li className="user-icon" onClick={handleLogout}>
             <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-circle-arrow-left" width="35" height="35" viewBox="0 0 24 24" strokeWidth="1.5" stroke="#000000" fill="none" strokeLinecap="round" strokeLinejoin="round">
               <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
