@@ -8,6 +8,7 @@ import ReservarHora from '../Componentes/ReservarHora';
 import Administrar from '../Componentes/Administrar';
 import NoLogeado from './NoLogeado';
 import Logeado from './Logeado';
+import AnularHora from '../Componentes/AnularHora';
 
 export const MainRouter = ({loggin, setLoggin}) => {
 	
@@ -41,6 +42,10 @@ export const MainRouter = ({loggin, setLoggin}) => {
 		<Route
 			path='/reservar-hora'
 			element={<NoLogeado element={<ReservarHora />} authenticated={isLoggedIn} />}
+		/>
+		<Route
+			path='/anular-hora'
+			element={<NoLogeado element={<AnularHora />} authenticated={isLoggedIn} />}
 		/>
 		<Route
 			path='/administrar'

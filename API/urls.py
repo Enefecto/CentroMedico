@@ -10,5 +10,8 @@ urlpatterns = [
     path('ingresarDisponibilidad/',views.disponibilidadMedico),
     path('disponibilidadMedico/', views.disponibilidadMedico),
     path('disponibilidadMedicoById/', views.disponibilidadMedicoById),
-    path('agregarCitaMedica/', views.CitaMedica),
+    path('agregarCitaMedica/', views.cita_medica_view),
+    path('citaMedica/<int:id>/', views.cita_medica_view),
+    path('citaMedica/', views.cita_medica_view),
+    path('paciente/<int:id>/citas/', views.citas_paciente),
 ]

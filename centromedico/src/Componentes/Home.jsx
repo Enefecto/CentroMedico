@@ -30,6 +30,10 @@ const Home = ({setLoggin}) => {
     navigate('/reservar-hora');
   };
 
+  const goAnularHora = () => {
+    navigate('/anular-hora');
+  };
+
   const goAgregarDisponibilidad = () => {
     navigate('/agregar-disponibilidad');
   };
@@ -49,6 +53,7 @@ const Home = ({setLoggin}) => {
       <nav className='navigation-bar'>
         <ul>
           {reserveButton ? <li onClick={goReservarHora}>Reservar Hora</li> : <></>}
+          {reserveButton ? <li onClick={goAnularHora}>Anular Hora</li> : <></>}
           {availabilityButton ? <li onClick={goAgregarDisponibilidad}>Agregar Disponibilidad</li> : <></>}
           {manageButon ? <li onClick={goAdministrar}>Administrar</li> : <></>}
           <li className="user-icon" onClick={handleLogout}>
