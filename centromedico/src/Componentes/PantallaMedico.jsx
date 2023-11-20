@@ -1,33 +1,37 @@
-import React, {useState, useEffect} from 'react'
+import React,{useState, useEffect} from 'react'
 
-const Cajero = () => {
+const PantallaMedico = () => {
 
     const [CITAS, setCITAS] = useState([]);
     const [PACIENTES, setPACIENTES] = useState([]);
 
     useEffect(() => {
+        const medico = JSON.parse(localStorage.getItem('User')).userData;
 
-		// Obtener citas
-		fetch('http://127.0.0.1:8000/api/citaMedica/')
-			.then(response => response.json())
-			.then(data => {
-                const today = new Date().toISOString().split('T')[0];
-                const citasHoy = data.filter(cita => cita.fecha === today && cita.estado === 'Reservada');
-                console.log(data);
-                setCITAS(citasHoy);
-            })
-			.catch(error => console.error('Error:', error));
+        //Obtener citas
+        fetch(`http://localhost:8000/api/medico/citaMedica/${medico.id}/`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        })
+        .then(response => response.json())
+        .then(data => {
+            const today = new Date().toISOString().split('T')[0];
+            const citasHoy = data.filter(cita => cita.fecha === today && cita.estado === 'En espera');
+            setCITAS(citasHoy);
+        })
+        .catch(error => console.error('Error:', error));
 
-		// Obtener pacientes
+        // Obtener pacientes
 		fetch('http://127.0.0.1:8000/api/pacientes/')
-			.then(response => response.json())
-			.then(data => {
-                setPACIENTES(data);
-            })
-			.catch(error => console.error('Error:', error));
-        
-		// eslint-disable-next-line
-	},[]);
+        .then(response => response.json())
+        .then(data => {
+            setPACIENTES(data);
+        })
+        .catch(error => console.error('Error:', error));
+        // eslint-disable-next-line
+    },[])
 
     const handleUpdateCita = (citaId) => {
         // Obtener la cita actual que se va a actualizar
@@ -37,16 +41,24 @@ const Cajero = () => {
             console.error('Cita no encontrada para actualizar');
             return;
         }
-    
-        // Actualizar el estado de la cita a 'En espera'
-        const updatedCita = { ...citaToUpdate, estado: 'En espera' };
-    
+
+        // Actualizar el estado de la cita a 'Atendido'
+
+        const citaSerializer = {
+            "id": citaToUpdate.id,
+            "fecha": citaToUpdate.fecha,
+            "hora": citaToUpdate.hora,
+            "estado": 'Atendido',
+            "paciente": citaToUpdate.paciente_id,
+            "medico": citaToUpdate.medico_id
+        }
+
         fetch(`http://localhost:8000/api/citaMedica/${citaId}/`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify(updatedCita), // Enviar toda la cita actualizada en el cuerpo de la solicitud
+            body: JSON.stringify(citaSerializer), // Enviar toda la cita actualizada en el cuerpo de la solicitud
         })
         .then(response => response.json())
         .then(data => {
@@ -56,16 +68,16 @@ const Cajero = () => {
         })
         .catch(error => console.error('Error:', error));
     };
-    
+
 
     return (
     <div className='conteiner'>
         <div className="conteiner-displayer">
-            <h2>Horas Reservadas Para Hoy</h2>
+            <h2>Pacientes en espera</h2>
             <ul>
                 {
                 PACIENTES.length !== 0 ? CITAS.map(cita => {
-                    const paciente = PACIENTES.find(paciente => paciente.id === cita.paciente);
+                    const paciente = PACIENTES.find(paciente => paciente.id === cita.paciente_id);
                     return (
                     <li key={cita.id}>
                         <span>Rut: <span id='succesful'>{paciente.rut}-{paciente.dv}</span></span>
@@ -92,4 +104,4 @@ const Cajero = () => {
     )
 }
 
-export default Cajero;
+export default PantallaMedico;

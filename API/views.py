@@ -188,13 +188,25 @@ def cita_medica_view(request, id=0):
         return JsonResponse(cita_serializer.errors, status=400)
 
     elif request.method == 'GET':
-        print('ALO')
         cita = CitaMedica.objects.all()
         cita_serializer = CitaMedicaSerializer(cita, many=True)
         return JsonResponse(cita_serializer.data, safe=False)
 
 @csrf_exempt
-def citas_paciente(request, id):
+def citas_medico(request, id=0):
+    if request.method == 'GET':
+        idMedico = id
+        try:
+            # Filtrar las citas médicas por el ID del médico
+            citas_medico = CitaMedica.objects.filter(medico=idMedico)
+            citas_list = list(citas_medico.values())  # Convertir el queryset a una lista de diccionarios
+
+            return JsonResponse(citas_list, safe=False)
+        except Medico.DoesNotExist:
+            return JsonResponse('Medico does not exist', status=404)
+        
+@csrf_exempt
+def citas_paciente(request, id=0):
     if request.method == 'GET':
         paciente = Paciente.objects.filter(id=id).first()
         if paciente:

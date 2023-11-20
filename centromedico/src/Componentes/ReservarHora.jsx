@@ -42,8 +42,6 @@ const ReservarHora = () => {
 
 	const handleChangeDia = (e) => {
 		const dia = e.target.value;
-		console.log(dia);
-		console.log(horasFiltradas);
 		// Filtrar las horas por el día seleccionado
         const horasPorDia = horasFiltradas.filter(hora => hora.dia === dia);
        	setHoras(horasPorDia);
@@ -69,7 +67,6 @@ const ReservarHora = () => {
 			});
 
 			if (response.ok) {
-				console.log('GUD');
 				setSuccesful('Hora reservada correctamente');
 			} else {
 				console.error('Error al agregar cita');

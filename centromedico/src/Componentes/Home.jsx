@@ -4,28 +4,32 @@ import { useNavigate } from 'react-router-dom';
 const Home = ({setLoggin}) => {
 
   const [availabilityButton, setAvailabilityButton] = useState(false);
+  const [screenButton, setScreenButton] = useState(false);
   const [reserveButton, setReserveButton] = useState(false);
   const [manageButon, setManageButton] = useState(false);
   const [boxButton, setBoxButton] = useState(false);
   
 
   useEffect(() => {
+
     const user = JSON.parse(localStorage.getItem('User'));
 
     setReserveButton(false);
     setAvailabilityButton(false);
     setManageButton(false);
     setBoxButton(false);
+    setScreenButton(false);
 
     if (user.userType === 'Paciente'){
       setReserveButton(true);
     } else if (user.userType === 'Medico'){
       setAvailabilityButton(true);
+      setScreenButton(true);
     } else if (user.userType === 'Secretaria'){
       setManageButton(true);
     } else if (user.userType === 'Cajero'){
       setBoxButton(true);
-    }
+    } 
   },[]);
 
   const navigate = useNavigate();
@@ -49,6 +53,9 @@ const Home = ({setLoggin}) => {
   const goBox = () => {
     navigate('/cajero');
   }
+  const goScreen = () => {
+    navigate('/pantalla-espera');
+  }
 
   const handleLogout = () => {
     localStorage.setItem('isLoggedIn', 'false');
@@ -63,6 +70,7 @@ const Home = ({setLoggin}) => {
           {reserveButton ? <li onClick={goReservarHora}>Reservar Hora</li> : <></>}
           {reserveButton ? <li onClick={goAnularHora}>Anular Hora</li> : <></>}
           {availabilityButton ? <li onClick={goAgregarDisponibilidad}>Agregar Disponibilidad</li> : <></>}
+          {screenButton ? <li onClick={goScreen}>Pantalla de espera</li> : <></>}
           {manageButon ? <li onClick={goAdministrar}>Administrar</li> : <></>}
           {boxButton ? <li onClick={goBox}>Cajero</li> : <></>}
           <li className="user-icon" onClick={handleLogout}>

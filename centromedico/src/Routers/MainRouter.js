@@ -10,6 +10,7 @@ import NoLogeado from './NoLogeado';
 import Logeado from './Logeado';
 import AnularHora from '../Componentes/AnularHora';
 import Cajero from '../Componentes/Cajero';
+import PantallaMedico from '../Componentes/PantallaMedico';
 
 export const MainRouter = ({loggin, setLoggin}) => {
 	
@@ -55,6 +56,10 @@ export const MainRouter = ({loggin, setLoggin}) => {
 		<Route
 			path='/cajero'
 			element={<NoLogeado element={<Cajero />} authenticated={isLoggedIn} />}
+		/>
+		<Route
+			path='/pantalla-espera'
+			element={<NoLogeado element={<PantallaMedico />} authenticated={isLoggedIn} />}
 		/>
 		<Route path='*' element={<h1 id='error404'>Error 404 pagina no encontrada :(</h1>} />
 		</Routes>
