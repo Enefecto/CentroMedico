@@ -52,9 +52,9 @@ const ReservarHora = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const medico = HORAS.filter(hora => hora.dia === formData.fecha && hora.hora_inicio === formData.hora);
         formData.fecha = e.target.dia.value;
         formData.hora = e.target.hora.value;
+        const medico = HORAS.filter(hora => hora.dia === formData.fecha && hora.hora_inicio === formData.hora);
 		const idMedico = medico[0].medico;
 		formData.medico = idMedico;
 		console.log(formData);

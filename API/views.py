@@ -155,7 +155,7 @@ def disponibilidadMedicoById(request):
     return JsonResponse('Método no permitido', status=405)
 
 @csrf_exempt
-def cita_medica_view(request, id):
+def cita_medica_view(request, id=0):
     if request.method == 'POST':
         cita_data = JSONParser().parse(request)
         cita_serializer = CitaMedicaSerializer(data=cita_data)
@@ -172,6 +172,21 @@ def cita_medica_view(request, id):
             return JsonResponse('CitaMedica does not exist', status=400)
         except Exception as e:
             return JsonResponse(str(e), status=500)
+    elif request.method == 'PUT':
+        cita_id = id
+        try:
+            cita = CitaMedica.objects.get(id=cita_id)
+        except CitaMedica.DoesNotExist:
+            return JsonResponse('CitaMedica does not exist', status=404)
+
+        cita_data = JSONParser().parse(request)
+        cita_serializer = CitaMedicaSerializer(cita, data=cita_data)
+        
+        if cita_serializer.is_valid():
+            cita_serializer.save()
+            return JsonResponse('Updated Successfully', safe=False)
+        return JsonResponse(cita_serializer.errors, status=400)
+
     elif request.method == 'GET':
         print('ALO')
         cita = CitaMedica.objects.all()

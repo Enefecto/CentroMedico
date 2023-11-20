@@ -1,1 +1,1 @@
-# Noticiero CaosNews hecho con React y Django
+# Aplicación para reservar horas hecho con React, Django y SQLite.
